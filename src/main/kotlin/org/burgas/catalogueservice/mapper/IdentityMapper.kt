@@ -22,8 +22,8 @@ class IdentityMapper : Mapper<IdentityRequest, Identity, IdentityShortResponse, 
 
     override suspend fun toEntity(request: IdentityRequest): Identity {
         val identity = this.identityRepository.findById(request.id ?: UUID.randomUUID())
-        if (identity != null) {
-            return Identity().apply {
+        return if (identity != null) {
+            Identity().apply {
                 this.id = identity.id
                 this.authority = request.authority ?: identity.authority
                 this.username = request.username ?: identity.username
@@ -35,7 +35,7 @@ class IdentityMapper : Mapper<IdentityRequest, Identity, IdentityShortResponse, 
                 this.patronymic = request.patronymic ?: identity.patronymic
             }
         } else {
-            return Identity().apply {
+            Identity().apply {
                 val newPassword = passwordEncoder.encode(
                     request.password ?: throw IllegalArgumentException("Identity password is null")
                 )

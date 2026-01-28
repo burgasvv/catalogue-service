@@ -67,7 +67,13 @@ class SecurityConfig {
                 .pathMatchers(
                     "/api/v1/security/csrf-token",
 
-                    "/api/v1/identities/create"
+                    "/api/v1/identities/create",
+
+                    "/api/v1/categories", "/api/v1/categories/by-id",
+
+                    "/api/v1/products", "/api/v1/products/by-id",
+
+                    "/api/v1/catalogues", "/api/v1/catalogues/by-id"
                 )
                 .permitAll()
 
@@ -78,7 +84,13 @@ class SecurityConfig {
                 .hasAnyAuthority("ADMIN", "USER")
 
                 .pathMatchers(
-                    "/api/v1/identities", "/api/v1/identities/change-status"
+                    "/api/v1/identities", "/api/v1/identities/change-status",
+
+                    "/api/v1/categories/create", "/api/v1/categories/update", "/api/v1/categories/delete",
+
+                    "/api/v1/products/create", "/api/v1/products/update", "/api/v1/products/delete",
+
+                    "/api/v1/catalogues/create", "/api/v1/catalogues/update", "/api/v1/catalogues/delete"
                 )
                 .hasAnyAuthority("ADMIN")
             }

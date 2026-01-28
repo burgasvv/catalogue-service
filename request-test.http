@@ -76,3 +76,104 @@ X-Csrf-Token: 965d9e93-2849-4bc0-b4aa-59f632626705
     "id": "41005a2f-bca8-406a-afef-c1c881f3353a",
     "password": "burgasvv"
 }
+
+
+
+### Category Requests
+
+
+
+###
+GET /api/v1/categories
+Host: localhost:9000
+Accept: application/json
+
+###
+GET /api/v1/categories/by-id?categoryId=0c483feb-8c70-4cb5-8058-36634b22b5ce
+Host: localhost:9000
+Accept: application/json
+
+###
+POST /api/v1/categories/create
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: 16425408-ce38-4596-88a3-02c658bb272b
+
+{
+    "name": "Оперативная Память",
+    "description": "Описание категории Оперативная Память"
+}
+
+###
+PUT /api/v1/categories/update
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: 16425408-ce38-4596-88a3-02c658bb272b
+
+{
+    "id": "ac33651d-1395-4f4f-a2d0-2161ba363f28",
+    "name": "Память"
+}
+
+###
+DELETE /api/v1/categories/delete?categoryId=ac33651d-1395-4f4f-a2d0-2161ba363f28
+Host: localhost:9000
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: 16425408-ce38-4596-88a3-02c658bb272b
+
+
+
+### Product Requests
+
+
+
+###
+GET /api/v1/products
+Host: localhost:9000
+Accept: application/json
+
+###
+GET /api/v1/products/by-id?productId=bb977eb6-2e9d-4ca4-b336-4e30730ad771
+Host: localhost:9000
+Accept: application/json
+
+###
+POST /api/v1/products/create
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: a1592eb0-e566-4f78-99c6-1dc64668271d
+
+{
+    "name": "NZ-500",
+    "categoryId": "0c483feb-8c70-4cb5-8058-36634b22b5ce",
+    "description": "Описание продукта NZ-500",
+    "price": 250000.50
+}
+
+###
+PUT /api/v1/products/update
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: 5780c145-1307-4b3f-9e2e-be070676bd79
+
+{
+    "id": "bb977eb6-2e9d-4ca4-b336-4e30730ad771",
+    "name": "NM-780",
+    "description": "Описание продукта NM-780"
+}
+
+###
+DELETE /api/v1/products/delete?productId=bb977eb6-2e9d-4ca4-b336-4e30730ad771
+Host: localhost:9000
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: 5780c145-1307-4b3f-9e2e-be070676bd79

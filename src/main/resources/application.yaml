@@ -14,7 +14,5 @@ spring:
     password: postgres
 logging:
   level:
-    org.springframework.transaction.interceptor: TRACE
-    org.springframework.r2dbc: DEBUG
-    io.r2dbc.postgresql.QUERY: DEBUG
-    io.r2dbc.postgresql.PARAM: DEBUG
+    org.springframework.r2dbc: TRACE
+    org.springframework.data.r2dbc: TRACE
