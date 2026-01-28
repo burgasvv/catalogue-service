@@ -1,8 +1,7 @@
 package org.burgas.catalogueservice.dto.product
 
 import org.burgas.catalogueservice.dto.Response
-import org.burgas.catalogueservice.dto.category.CategoryShortResponse
-import java.util.UUID
+import java.util.*
 
 data class ProductShortResponse(
     override val id: UUID? = null,
