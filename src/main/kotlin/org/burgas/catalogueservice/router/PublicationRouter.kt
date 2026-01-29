@@ -32,7 +32,11 @@ class PublicationRouter {
             }
 
             GET("/by-id") {
-                ok().bodyValueAndAwait(UUID.fromString(it.queryParamOrNull("publicationId")))
+                ok().bodyValueAndAwait(
+                    publicationService.findById(
+                        UUID.fromString(it.queryParamOrNull("publicationId"))
+                    )
+                )
             }
 
             POST("/create") {

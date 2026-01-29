@@ -33,8 +33,10 @@ class CatalogueRouter {
 
             GET("/by-id") {
                 ok().bodyValueAndAwait(
-                    UUID.fromString(
-                        it.queryParamOrNull("catalogueId")
+                    catalogueService.findById(
+                        UUID.fromString(
+                            it.queryParamOrNull("catalogueId")
+                        )
                     )
                 )
             }
