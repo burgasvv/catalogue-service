@@ -49,9 +49,11 @@ class PublicationMapper : Mapper<PublicationRequest, Publication, PublicationSho
         } else {
             Publication().apply {
                 this.name = request.name ?: throw IllegalArgumentException("Publication name is null")
-                this.description = request.description ?: throw IllegalArgumentException("Publication description is null")
+                this.description =
+                    request.description ?: throw IllegalArgumentException("Publication description is null")
                 this.date = request.date ?: throw IllegalArgumentException("Publication date is null")
-                this.catalogueId = request.catalogueId ?: throw IllegalArgumentException("Publication categoryId is null")
+                this.catalogueId =
+                    request.catalogueId ?: throw IllegalArgumentException("Publication categoryId is null")
             }
         }
     }

@@ -36,11 +36,11 @@ class IdentityMapper : Mapper<IdentityRequest, Identity, IdentityShortResponse, 
             }
         } else {
             Identity().apply {
+                this.authority = request.authority ?: throw IllegalArgumentException("Identity authority is null")
+                this.username = request.username ?: throw IllegalArgumentException("Identity username is null")
                 val newPassword = passwordEncoder.encode(
                     request.password ?: throw IllegalArgumentException("Identity password is null")
                 )
-                this.authority = request.authority ?: throw IllegalArgumentException("Identity authority is null")
-                this.username = request.username ?: throw IllegalArgumentException("Identity username is null")
                 this.password = newPassword ?: throw IllegalArgumentException("New password is null")
                 this.email = request.email ?: throw IllegalArgumentException("Identity email in null")
                 this.enabled = request.enabled ?: true
