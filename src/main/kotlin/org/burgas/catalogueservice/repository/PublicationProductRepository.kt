@@ -1,12 +1,11 @@
 package org.burgas.catalogueservice.repository
 
-import kotlinx.coroutines.flow.Flow
 import org.burgas.catalogueservice.entity.publicationProduct.PublicationProduct
 import org.springframework.data.r2dbc.repository.Modifying
 import org.springframework.data.r2dbc.repository.Query
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 import org.springframework.stereotype.Repository
-import java.util.UUID
+import java.util.*
 
 @Repository
 interface PublicationProductRepository : CoroutineCrudRepository<PublicationProduct, UUID> {
