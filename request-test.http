@@ -22,7 +22,7 @@ Accept: application/json
 Authorization: Basic burgasvv@gmail.com burgasvv
 
 ###
-GET /api/v1/identities/by-id?identityId=41005a2f-bca8-406a-afef-c1c881f3353a
+GET /api/v1/identities/by-id?identityId=f730401f-c3e1-4b6c-8baa-3e50ac478fc7
 Host: localhost:9000
 Accept: application/json
 Authorization: Basic burgasvv@gmail.com burgasvv
@@ -138,7 +138,7 @@ Host: localhost:9000
 Accept: application/json
 
 ###
-GET /api/v1/products/by-id?productId=bb977eb6-2e9d-4ca4-b336-4e30730ad771
+GET /api/v1/products/by-id?productId=974b95bd-065c-4b2e-85b5-456a61aa9253
 Host: localhost:9000
 Accept: application/json
 
@@ -148,7 +148,7 @@ Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
 Authorization: Basic burgasvv@gmail.com burgasvv
-X-Csrf-Token: a1592eb0-e566-4f78-99c6-1dc64668271d
+X-Csrf-Token: 1d2227ad-9f85-4521-9aeb-a7bdb06b57e1
 
 {
     "name": "NZ-500",
@@ -177,3 +177,103 @@ Host: localhost:9000
 Accept: application/json
 Authorization: Basic burgasvv@gmail.com burgasvv
 X-Csrf-Token: 5780c145-1307-4b3f-9e2e-be070676bd79
+
+
+
+### Catalogue Requests
+
+
+
+###
+GET /api/v1/catalogues
+Host: localhost:9000
+Accept: application/json
+
+###
+GET /api/v1/catalogues/by-id?catalogueId=d35d5556-2750-4bfd-a06a-fdd693c97d04
+Host: localhost:9000
+Accept: application/json
+
+###
+POST /api/v1/catalogues/create
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: 1d2227ad-9f85-4521-9aeb-a7bdb06b57e1
+
+{
+    "name": "Techno-Math",
+    "description": "Описание каталога Techno-Math"
+}
+
+###
+PUT /api/v1/catalogues/update
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: 1d2227ad-9f85-4521-9aeb-a7bdb06b57e1
+
+{
+    "id": "b344ba0c-c774-4693-bd3e-c8a1f6f94c11",
+    "name": "Techno-Math-Test"
+}
+
+###
+DELETE /api/v1/catalogues/delete?catalogueId=b344ba0c-c774-4693-bd3e-c8a1f6f94c11
+Host: localhost:9000
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: 1d2227ad-9f85-4521-9aeb-a7bdb06b57e1
+
+
+
+### Publication Requests
+
+
+
+###
+GET /api/v1/publications
+Host: localhost:9000
+Accept: application/json
+
+###
+GET /api/v1/publications/by-id?publicationId=299d8ed6-052f-4f62-94be-7979b07d51b4
+Host: localhost:9000
+Accept: application/json
+
+###
+POST /api/v1/publications/create
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: 73348fad-87a1-4772-9e1f-3e62a12c863d
+
+{
+    "name": "Publication #1 Tech Games",
+    "description": "Описание издания Publication #1 Tech Games",
+    "date": "2026-01-29",
+    "catalogueId": "d35d5556-2750-4bfd-a06a-fdd693c97d04"
+}
+
+###
+PUT /api/v1/publications/update
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: 73348fad-87a1-4772-9e1f-3e62a12c863d
+
+{
+    "id": "9ebe59fc-13dc-4dac-ac01-71aaa1e638e5",
+    "name": "Publication #1 Tech Games Test"
+}
+
+###
+DELETE /api/v1/publications/delete?publicationId=9ebe59fc-13dc-4dac-ac01-71aaa1e638e5
+Host: localhost:9000
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: 73348fad-87a1-4772-9e1f-3e62a12c863d

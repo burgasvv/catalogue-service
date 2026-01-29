@@ -73,7 +73,9 @@ class SecurityConfig {
 
                     "/api/v1/products", "/api/v1/products/by-id",
 
-                    "/api/v1/catalogues", "/api/v1/catalogues/by-id"
+                    "/api/v1/catalogues", "/api/v1/catalogues/by-id",
+
+                    "/api/v1/publications", "/api/v1/publications/by-id"
                 )
                 .permitAll()
 
@@ -90,7 +92,9 @@ class SecurityConfig {
 
                     "/api/v1/products/create", "/api/v1/products/update", "/api/v1/products/delete",
 
-                    "/api/v1/catalogues/create", "/api/v1/catalogues/update", "/api/v1/catalogues/delete"
+                    "/api/v1/catalogues/create", "/api/v1/catalogues/update", "/api/v1/catalogues/delete",
+
+                    "/api/v1/publications/create", "/api/v1/publications/update", "/api/v1/publications/delete"
                 )
                 .hasAnyAuthority("ADMIN")
             }
