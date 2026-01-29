@@ -277,3 +277,39 @@ Host: localhost:9000
 Accept: application/json
 Authorization: Basic burgasvv@gmail.com burgasvv
 X-Csrf-Token: 73348fad-87a1-4772-9e1f-3e62a12c863d
+
+
+
+### Publication Product Requests
+
+
+
+###
+POST /api/v1/publication-product/add
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: a2f7e919-51e4-4386-af2f-fa3733ed5f36
+
+[
+    {
+        "publicationId": "299d8ed6-052f-4f62-94be-7979b07d51b4",
+        "productId": "974b95bd-065c-4b2e-85b5-456a61aa9253"
+    }
+]
+
+###
+DELETE /api/v1/publication-product/remove
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: a2f7e919-51e4-4386-af2f-fa3733ed5f36
+
+[
+    {
+        "publicationId": "299d8ed6-052f-4f62-94be-7979b07d51b4",
+        "productId": "974b95bd-065c-4b2e-85b5-456a61aa9253"
+    }
+]

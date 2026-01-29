@@ -94,7 +94,9 @@ class SecurityConfig {
 
                     "/api/v1/catalogues/create", "/api/v1/catalogues/update", "/api/v1/catalogues/delete",
 
-                    "/api/v1/publications/create", "/api/v1/publications/update", "/api/v1/publications/delete"
+                    "/api/v1/publications/create", "/api/v1/publications/update", "/api/v1/publications/delete",
+
+                    "/api/v1/publication-product/add", "/api/v1/publication-product/remove"
                 )
                 .hasAnyAuthority("ADMIN")
             }
