@@ -1,18 +1,13 @@
 package org.burgas.catalogueservice.router
 
-import kotlinx.coroutines.reactive.awaitSingle
 import kotlinx.coroutines.reactor.awaitSingle
-import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.burgas.catalogueservice.dto.exception.ExceptionResponse
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpStatus
 import org.springframework.security.web.server.csrf.CsrfToken
-import org.springframework.web.reactive.function.server.ServerResponse
-import org.springframework.web.reactive.function.server.attributeOrNull
 import org.springframework.web.reactive.function.server.bodyValueAndAwait
 import org.springframework.web.reactive.function.server.coRouter
-import org.springframework.web.reactive.function.server.router
 import reactor.core.publisher.Mono
 
 @Configuration
