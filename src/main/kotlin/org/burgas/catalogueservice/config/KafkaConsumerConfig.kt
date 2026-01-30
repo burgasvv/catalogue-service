@@ -7,7 +7,6 @@ import org.burgas.catalogueservice.dto.identity.IdentityFullResponse
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.kafka.support.serializer.JacksonJsonDeserializer
-import kotlin.reflect.jvm.jvmName
 
 @Configuration
 class KafkaConsumerConfig {
