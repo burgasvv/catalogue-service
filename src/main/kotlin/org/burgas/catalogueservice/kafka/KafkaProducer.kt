@@ -3,7 +3,6 @@ package org.burgas.catalogueservice.kafka
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.burgas.catalogueservice.dto.identity.IdentityFullResponse
-import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Component
 
 @Component
