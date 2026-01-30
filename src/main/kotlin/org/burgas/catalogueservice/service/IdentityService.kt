@@ -27,7 +27,8 @@ class IdentityService : AsyncCrudService<IdentityRequest, Identity, IdentityShor
     }
 
     override suspend fun findEntity(id: UUID): Identity {
-        return this.identityMapper.identityRepository.findById(id) ?: throw IllegalArgumentException("Identity not found")
+        return this.identityMapper.identityRepository.findById(id)
+            ?: throw IllegalArgumentException("Identity not found")
     }
 
     override suspend fun findById(id: UUID): IdentityFullResponse {
