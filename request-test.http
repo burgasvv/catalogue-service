@@ -32,7 +32,7 @@ POST /api/v1/identities/create
 Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
-X-Csrf-Token: cc226ddc-a3e6-4d0d-8b21-fefc4a4709fb
+X-Csrf-Token: 94aad1fa-f5d6-482c-a788-849260514ce5
 
 {
     "authority": "USER",

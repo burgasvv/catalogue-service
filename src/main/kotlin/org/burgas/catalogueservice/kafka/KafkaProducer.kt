@@ -3,11 +3,13 @@ package org.burgas.catalogueservice.kafka
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.burgas.catalogueservice.dto.identity.IdentityFullResponse
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Component
 
 @Component
 class KafkaProducer {
 
+    @Qualifier(value = "identityKafkaProducer")
     private final val kafkaProducer: KafkaProducer<String, IdentityFullResponse>
 
     constructor(kafkaProducer: KafkaProducer<String, IdentityFullResponse>) {
