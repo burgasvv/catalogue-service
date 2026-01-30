@@ -6,6 +6,7 @@ import org.burgas.catalogueservice.dto.identity.IdentityFullResponse
 import org.burgas.catalogueservice.dto.identity.IdentityRequest
 import org.burgas.catalogueservice.dto.identity.IdentityShortResponse
 import org.burgas.catalogueservice.entity.identity.Identity
+import org.burgas.catalogueservice.kafka.KafkaProducer
 import org.burgas.catalogueservice.mapper.IdentityMapper
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Isolation
@@ -18,9 +19,11 @@ import java.util.*
 class IdentityService : AsyncCrudService<IdentityRequest, Identity, IdentityShortResponse, IdentityFullResponse> {
 
     private final val identityMapper: IdentityMapper
+    private final val kafkaProducer: KafkaProducer
 
-    constructor(identityMapper: IdentityMapper) {
+    constructor(identityMapper: IdentityMapper, kafkaProducer: KafkaProducer) {
         this.identityMapper = identityMapper
+        this.kafkaProducer = kafkaProducer
     }
 
     override suspend fun findEntity(id: UUID): Identity {
@@ -43,7 +46,9 @@ class IdentityService : AsyncCrudService<IdentityRequest, Identity, IdentityShor
     )
     override suspend fun create(request: IdentityRequest) {
         val identity = this.identityMapper.toEntity(request)
-        this.identityMapper.identityRepository.save(identity)
+        val saved = this.identityMapper.identityRepository.save(identity)
+        val identityFullResponse = this.identityMapper.toFullResponse(saved)
+        this.kafkaProducer.sendIdentityFullResponse(identityFullResponse)
     }
 
     @Transactional(
