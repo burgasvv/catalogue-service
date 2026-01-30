@@ -1,5 +1,7 @@
 package org.burgas.catalogueservice.kafka
 
+import org.apache.kafka.clients.producer.KafkaProducer
+import org.apache.kafka.clients.producer.ProducerRecord
 import org.burgas.catalogueservice.dto.identity.IdentityFullResponse
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Component
@@ -7,13 +9,14 @@ import org.springframework.stereotype.Component
 @Component
 class KafkaProducer {
 
-    private final val kafkaTemplate: KafkaTemplate<String, IdentityFullResponse>
+    private final val kafkaProducer: KafkaProducer<String, IdentityFullResponse>
 
-    constructor(kafkaTemplate: KafkaTemplate<String, IdentityFullResponse>) {
-        this.kafkaTemplate = kafkaTemplate
+    constructor(kafkaProducer: KafkaProducer<String, IdentityFullResponse>) {
+        this.kafkaProducer = kafkaProducer
     }
 
     fun sendIdentityFullResponse(identityFullResponse: IdentityFullResponse) {
-        this.kafkaTemplate.send("identity-topic", identityFullResponse)
+        val producerRecord = ProducerRecord<String, IdentityFullResponse>("identity-topic", identityFullResponse)
+        this.kafkaProducer.send(producerRecord)
     }
 }

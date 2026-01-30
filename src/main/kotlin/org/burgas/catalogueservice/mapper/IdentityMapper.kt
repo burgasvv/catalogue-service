@@ -63,7 +63,6 @@ class IdentityMapper : Mapper<IdentityRequest, Identity, IdentityShortResponse, 
     }
 
     override suspend fun toFullResponse(entity: Identity): IdentityFullResponse {
-        println(this.passwordEncoder.encode(entity.password))
         return IdentityFullResponse(
             id = entity.id,
             username = entity.username,

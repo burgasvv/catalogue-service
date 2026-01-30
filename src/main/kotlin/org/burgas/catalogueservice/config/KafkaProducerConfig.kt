@@ -1,5 +1,6 @@
 package org.burgas.catalogueservice.config
 
+import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.serialization.StringSerializer
 import org.burgas.catalogueservice.dto.identity.IdentityFullResponse
@@ -23,12 +24,8 @@ class KafkaProducerConfig {
     }
 
     @Bean
-    fun identityProducerFactory(): ProducerFactory<String, IdentityFullResponse> {
-        return DefaultKafkaProducerFactory(this.producerConfig())
-    }
-
-    @Bean
-    fun identityKafkaTemplate(): KafkaTemplate<String, IdentityFullResponse> {
-        return KafkaTemplate(this.identityProducerFactory())
+    fun identityKafkaProducer(): KafkaProducer<String, IdentityFullResponse> {
+        val kafkaProducer = KafkaProducer<String, IdentityFullResponse>(this.producerConfig())
+        return kafkaProducer
     }
 }
