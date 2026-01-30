@@ -1,7 +1,7 @@
 package org.burgas.catalogueservice.router
 
-import org.burgas.catalogueservice.dto.category.CategoryRequest
-import org.burgas.catalogueservice.dto.category.CategoryShortResponse
+import org.burgas.catalogueservice.dto.catalogue.CatalogueRequest
+import org.burgas.catalogueservice.dto.catalogue.CatalogueShortResponse
 import org.junit.jupiter.api.MethodOrderer
 import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.Test
@@ -9,7 +9,6 @@ import org.junit.jupiter.api.TestMethodOrder
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.webtestclient.autoconfigure.AutoConfigureWebTestClient
-import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.security.test.context.support.WithUserDetails
 import org.springframework.security.test.web.reactive.server.SecurityMockServerConfigurers
@@ -20,24 +19,25 @@ import tools.jackson.module.kotlin.readValue
 @SpringBootTest
 @AutoConfigureWebTestClient
 @TestMethodOrder(value = MethodOrderer.OrderAnnotation::class)
-class CategoryRouterTest(
+class CatalogueRouterTest(
     @Autowired
     private final val webTestClient: WebTestClient
 ) {
     @Test
     @Order(value = 1)
     @WithUserDetails(value = "burgasvv@gmail.com", userDetailsServiceBeanName = "identityDetailsService")
-    fun `test create category endpoint`() {
-        val categoryRequest = CategoryRequest(
-            name = "Оператива",
-            description = "Описание категории Оператива"
+    fun `test create catalogue endpoint`() {
+        val catalogueRequest = CatalogueRequest(
+            name = "Techno-Land",
+            description = "Описание каталога Techno-Land"
         )
         this.webTestClient
             .mutateWith(SecurityMockServerConfigurers.csrf())
             .post()
-            .uri("/api/v1/categories/create")
+            .uri("/api/v1/catalogues/create")
+            .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
-            .bodyValue(categoryRequest)
+            .bodyValue(catalogueRequest)
             .exchange()
             .expectStatus().isOk
             .returnResult()
@@ -46,29 +46,29 @@ class CategoryRouterTest(
     @Test
     @Order(value = 2)
     @WithUserDetails(value = "burgasvv@gmail.com", userDetailsServiceBeanName = "identityDetailsService")
-    fun `test update category endpoint`() {
+    fun `test update catalogue endpoint`() {
         val objectMapper = ObjectMapper()
-        val categoriesResult = this.webTestClient
+        val cataloguesResult = this.webTestClient
             .get()
-            .uri("/api/v1/categories")
+            .uri("/api/v1/catalogues")
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
             .returnResult()
-        val categoryShortResponses =
-            objectMapper.readValue<List<CategoryShortResponse>>(categoriesResult.responseBodyContent!!)
-        val categoryShortResponse = categoryShortResponses.first { it.name == "Оператива" }
-        val categoryRequest = CategoryRequest(
-            id = categoryShortResponse.id,
-            name = "Оперативная Память",
-            description = "Описание категории Оперативная Память"
+        val catalogueShortResponses =
+            objectMapper.readValue<List<CatalogueShortResponse>>(cataloguesResult.responseBodyContent!!)
+        val catalogueShortResponse = catalogueShortResponses.first { first -> first.name == "Techno-Land" }
+        val catalogueRequest = CatalogueRequest(
+            id = catalogueShortResponse.id,
+            name = "Techno-Land Test",
+            description = "Описание каталога Techno-Land Test"
         )
         this.webTestClient
             .mutateWith(SecurityMockServerConfigurers.csrf())
             .put()
-            .uri("/api/v1/categories/update")
+            .uri("/api/v1/catalogues/update")
             .accept(MediaType.APPLICATION_JSON)
-            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .bodyValue(categoryRequest)
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(catalogueRequest)
             .exchange()
             .expectStatus().isOk
             .returnResult()
@@ -76,10 +76,10 @@ class CategoryRouterTest(
 
     @Test
     @Order(value = 3)
-    fun `test find all categories endpoint`() {
+    fun `test find all catalogues endpoint`() {
         this.webTestClient
             .get()
-            .uri("/api/v1/categories")
+            .uri("/api/v1/catalogues")
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
             .expectStatus().isOk
@@ -88,23 +88,23 @@ class CategoryRouterTest(
 
     @Test
     @Order(value = 4)
-    fun `test find by id category endpoint`() {
+    fun `test find catalogue by id endpoint`() {
         val objectMapper = ObjectMapper()
-        val categoriesResult = this.webTestClient
+        val cataloguesResult = this.webTestClient
             .get()
-            .uri("/api/v1/categories")
+            .uri("/api/v1/catalogues")
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
             .returnResult()
-        val categoryShortResponses =
-            objectMapper.readValue<List<CategoryShortResponse>>(categoriesResult.responseBodyContent!!)
-        val categoryShortResponse = categoryShortResponses.first { it.name == "Оперативная Память" }
+        val catalogueShortResponses =
+            objectMapper.readValue<List<CatalogueShortResponse>>(cataloguesResult.responseBodyContent!!)
+        val catalogueShortResponse = catalogueShortResponses.first { first -> first.name == "Techno-Land Test" }
         this.webTestClient
             .get()
             .uri { uriBuilder ->
                 uriBuilder
-                    .path("/api/v1/categories/by-id")
-                    .queryParam("categoryId", categoryShortResponse.id.toString())
+                    .path("/api/v1/catalogues/by-id")
+                    .queryParam("catalogueId", catalogueShortResponse.id.toString())
                     .build()
             }
             .accept(MediaType.APPLICATION_JSON)
@@ -116,24 +116,24 @@ class CategoryRouterTest(
     @Test
     @Order(value = 5)
     @WithUserDetails(value = "burgasvv@gmail.com", userDetailsServiceBeanName = "identityDetailsService")
-    fun `test delete category endpoint`() {
+    fun `test delete catalogue endpoint`() {
         val objectMapper = ObjectMapper()
-        val categoriesResult = this.webTestClient
+        val cataloguesResult = this.webTestClient
             .get()
-            .uri("/api/v1/categories")
+            .uri("/api/v1/catalogues")
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
             .returnResult()
-        val categoryShortResponses =
-            objectMapper.readValue<List<CategoryShortResponse>>(categoriesResult.responseBodyContent!!)
-        val categoryShortResponse = categoryShortResponses.first { it.name == "Оперативная Память" }
+        val catalogueShortResponses =
+            objectMapper.readValue<List<CatalogueShortResponse>>(cataloguesResult.responseBodyContent!!)
+        val catalogueShortResponse = catalogueShortResponses.first { first -> first.name == "Techno-Land Test" }
         this.webTestClient
             .mutateWith(SecurityMockServerConfigurers.csrf())
             .delete()
             .uri { uriBuilder ->
                 uriBuilder
-                    .path("/api/v1/categories/delete")
-                    .queryParam("categoryId", categoryShortResponse.id.toString())
+                    .path("/api/v1/catalogues/delete")
+                    .queryParam("catalogueId", catalogueShortResponse.id.toString())
                     .build()
             }
             .accept(MediaType.APPLICATION_JSON)

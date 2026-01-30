@@ -57,7 +57,7 @@ class PublicationRouter {
             onError<Exception> { throwable, _ ->
                 val exceptionResponse = ExceptionResponse(
                     status = HttpStatus.BAD_REQUEST.name,
-                    code = HttpStatus.BAD_REQUEST.ordinal,
+                    code = HttpStatus.BAD_REQUEST.value(),
                     message = throwable.localizedMessage
                 )
                 badRequest().bodyValueAndAwait(exceptionResponse)
