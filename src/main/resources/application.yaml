@@ -5,13 +5,18 @@ spring:
   application:
     name: catalogue-service
   r2dbc:
-    url: r2dbc:postgresql://localhost:6000/catalogue_service_db
+    url: r2dbc:postgresql://postgres:5432/catalogue_service_db
     username: postgres
     password: postgres
   liquibase:
-    url: jdbc:postgresql://localhost:6000/catalogue_service_db
+    url: jdbc:postgresql://postgres:5432/catalogue_service_db
     user: postgres
     password: postgres
+  data:
+    redis:
+      host: redis
+  kafka:
+    bootstrap-servers: kafka:9092
 logging:
   level:
     org.springframework.r2dbc: TRACE

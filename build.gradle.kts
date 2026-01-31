@@ -14,16 +14,14 @@ java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(24)
     }
+    sourceCompatibility = JavaVersion.VERSION_24
+    targetCompatibility = JavaVersion.VERSION_24
 }
 
 configurations {
     compileOnly {
         extendsFrom(configurations.annotationProcessor.get())
     }
-}
-
-repositories {
-    mavenCentral()
 }
 
 dependencies {
@@ -56,6 +54,7 @@ dependencies {
 }
 
 kotlin {
+    jvmToolchain(24)
     compilerOptions {
         freeCompilerArgs.addAll("-Xjsr305=strict", "-Xannotation-default-target=param-property")
     }

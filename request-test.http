@@ -22,7 +22,7 @@ Accept: application/json
 Authorization: Basic burgasvv@gmail.com burgasvv
 
 ###
-GET /api/v1/identities/by-id?identityId=f730401f-c3e1-4b6c-8baa-3e50ac478fc7
+GET /api/v1/identities/by-id?identityId=a42dde6a-13c8-431b-95e0-b6f1b0531d86
 Host: localhost:9000
 Accept: application/json
 Authorization: Basic burgasvv@gmail.com burgasvv
@@ -32,7 +32,7 @@ POST /api/v1/identities/create
 Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
-X-Csrf-Token: 94aad1fa-f5d6-482c-a788-849260514ce5
+X-Csrf-Token: b93ff900-8e94-4bf1-b6e0-6edafaab329d
 
 {
     "authority": "USER",

@@ -14,7 +14,7 @@ class KafkaConsumerConfig {
     @Bean
     fun identityConsumerConfig(): Map<String, Any> {
         return mapOf(
-            ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to "localhost:9092",
+            ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to "kafka:9092",
             ConsumerConfig.GROUP_ID_CONFIG to "identity-group-id",
             ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
             ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to JacksonJsonDeserializer::class.java,
