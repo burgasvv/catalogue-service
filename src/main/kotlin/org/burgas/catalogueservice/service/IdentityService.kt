@@ -8,6 +8,11 @@ import org.burgas.catalogueservice.dto.identity.IdentityShortResponse
 import org.burgas.catalogueservice.entity.identity.Identity
 import org.burgas.catalogueservice.kafka.KafkaProducer
 import org.burgas.catalogueservice.mapper.IdentityMapper
+import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.data.redis.core.ReactiveRedisTemplate
+import org.springframework.data.redis.core.deleteAndAwait
+import org.springframework.data.redis.core.getAndAwait
+import org.springframework.data.redis.core.setAndAwait
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Isolation
 import org.springframework.transaction.annotation.Propagation
@@ -21,9 +26,17 @@ class IdentityService : AsyncCrudService<IdentityRequest, Identity, IdentityShor
     private final val identityMapper: IdentityMapper
     private final val kafkaProducer: KafkaProducer
 
-    constructor(identityMapper: IdentityMapper, kafkaProducer: KafkaProducer) {
+    @Qualifier(value = "identityReactiveRedisTemplate")
+    private final val reactiveRedisTemplate: ReactiveRedisTemplate<String, IdentityFullResponse>
+
+    constructor(
+        identityMapper: IdentityMapper,
+        kafkaProducer: KafkaProducer,
+        reactiveRedisTemplate: ReactiveRedisTemplate<String, IdentityFullResponse>
+    ) {
         this.identityMapper = identityMapper
         this.kafkaProducer = kafkaProducer
+        this.reactiveRedisTemplate = reactiveRedisTemplate
     }
 
     override suspend fun findEntity(id: UUID): Identity {
@@ -32,7 +45,16 @@ class IdentityService : AsyncCrudService<IdentityRequest, Identity, IdentityShor
     }
 
     override suspend fun findById(id: UUID): IdentityFullResponse {
-        return this.identityMapper.toFullResponse(this.findEntity(id))
+        val identityFullResponseFromRedis =
+            this.reactiveRedisTemplate.opsForValue().getAndAwait("identityFullResponse::$id")
+        if (identityFullResponseFromRedis != null) {
+            return identityFullResponseFromRedis
+        } else {
+            val identityFullResponseFromPostgres = this.identityMapper.toFullResponse(this.findEntity(id))
+            this.reactiveRedisTemplate.opsForValue()
+                .setAndAwait("identityFullResponse::$id", identityFullResponseFromPostgres)
+            return identityFullResponseFromPostgres
+        }
     }
 
     override suspend fun findAll(): List<IdentityShortResponse> {
@@ -61,7 +83,12 @@ class IdentityService : AsyncCrudService<IdentityRequest, Identity, IdentityShor
             throw IllegalArgumentException("Identity id is null")
         }
         val identity = this.identityMapper.toEntity(request)
-        this.identityMapper.identityRepository.save(identity)
+        val saved = this.identityMapper.identityRepository.save(identity)
+        val identityFullResponse =
+            this.reactiveRedisTemplate.opsForValue().getAndAwait("identityFullResponse::${saved.id}")
+        if (identityFullResponse != null) {
+            this.reactiveRedisTemplate.opsForValue().deleteAndAwait("identityFullResponse::${saved.id}")
+        }
     }
 
     @Transactional(
@@ -71,6 +98,11 @@ class IdentityService : AsyncCrudService<IdentityRequest, Identity, IdentityShor
     override suspend fun delete(id: UUID) {
         val identity = this.identityMapper.identityRepository.findById(id)
         if (identity != null) {
+            val identityFullResponse =
+                this.reactiveRedisTemplate.opsForValue().getAndAwait("identityFullResponse::${id}")
+            if (identityFullResponse != null) {
+                this.reactiveRedisTemplate.opsForValue().deleteAndAwait("identityFullResponse::${id}")
+            }
             this.identityMapper.identityRepository.delete(identity)
         } else {
             throw IllegalArgumentException("Identity not found")
@@ -92,6 +124,11 @@ class IdentityService : AsyncCrudService<IdentityRequest, Identity, IdentityShor
             ?: throw IllegalArgumentException("Identity not found")
         if (this.identityMapper.passwordEncoder.matches(request.password, identity.password)) {
             throw IllegalArgumentException("New and old password matched")
+        }
+        val identityFullResponse =
+            this.reactiveRedisTemplate.opsForValue().getAndAwait("identityFullResponse::${request.id}")
+        if (identityFullResponse != null) {
+            this.reactiveRedisTemplate.opsForValue().deleteAndAwait("identityFullResponse::${request.id}")
         }
         identity.apply {
             this.password = identityMapper.passwordEncoder.encode(request.password)
@@ -115,6 +152,11 @@ class IdentityService : AsyncCrudService<IdentityRequest, Identity, IdentityShor
             ?: throw IllegalArgumentException("Identity not found")
         if (identity.enabled == request.enabled) {
             throw IllegalArgumentException("Identity statuses matched")
+        }
+        val identityFullResponse =
+            this.reactiveRedisTemplate.opsForValue().getAndAwait("identityFullResponse::${request.id}")
+        if (identityFullResponse != null) {
+            this.reactiveRedisTemplate.opsForValue().deleteAndAwait("identityFullResponse::${request.id}")
         }
         identity.apply {
             this.enabled = request.enabled
